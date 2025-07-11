@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jan Kowalski - Terminal CV</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        /* Reset i podstawowe style */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            overflow: hidden;
+        }
+
+        /* Główny kontener terminala */
+        .terminal-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Nagłówek terminala */
+        .terminal-header {
+            background-color: #1a1a1a;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 2px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .close { background-color: #ff5f56; }
+        .minimize { background-color: #ffbd2e; }
+        .maximize { background-color: #27ca3f; }
+
+        .terminal-title {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* Okno terminala */
+        .terminal-window {
+            flex: 1;
+            background-color: #1a1a1a;
+            border-radius: 0 0 10px 10px;
+            padding: 20px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Linia terminala */
+        .terminal-line {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            word-break: break-all;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .terminal-content {
+            color: #ffffff;
+            flex: 1;
+        }
+
+        /* Input terminala */
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        /* Kursor migający */
+        .cursor {
+            display: inline-block;
+            background-color: #00ff00;
+            width: 8px;
+            height: 16px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Style dla różnych typów tekstu */
+        .text-success { color: #00ff00; }
+        .text-error { color: #ff0000; }
+        .text-warning { color: #ffff00; }
+        .text-info { color: #00ffff; }
+        .text-muted { color: #888; }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .terminal-container {
+                padding: 10px;
+            }
+
+            .terminal-window {
+                padding: 15px;
+                font-size: 12px;
+            }
+        }
+
+        /* Scrollbar dla terminala */
+        .terminal-window::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-window::-webkit-scrollbar-track {
+            background: #2a2a2a;
+        }
+
+        .terminal-window::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+
+        .terminal-window::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- Komponent główny terminala -->
+    <terminal-cv></terminal-cv>
+</div>
+
+<script>
+    // Dane osobowe - łatwe do edycji
+    const personalData = {
+        name: 'Kacper Wrobel',
+        title: 'Frontend Developer/ data analyst',
+        email: 'wrobelk03@gmail.com',
+        phone: '+48 536 086 383',
+        location: 'Warszawa, Polska',
+        website: 'https://youtube.com',
+        github: 'https://github.com/kacrro',
+        linkedin: 'https://linkedin.com',
+
+        about: `Jestem poczatkujacym programista frontend z doświadczeniem w tworzeniu aplikacji webowych z zajec na studiach.`,
+
+        skills: {
+            'Frontend': ['Vue.js', 'React', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Sass'],
+            'Backend': ['Node.js', 'Express.js', 'Python', 'Django', 'PHP', 'Laravel'],
+            'Bazy danych': ['SQL', 'cassandra', 'MongoDB', 'Redis'],
+            'Narzędzia': ['Git', 'Docker', 'Linux', 'jira']
+        },
+
+        experience: [
+            {
+                title: 'Intern IT support',
+                company: 'Emerge IT Support Sp. z o.o.',
+                period: '2025 - july',
+                description: 'Building and configuring Pcs for clients. Providing technical support and troubleshooting hardware and software issues.'
+            }
+        ],
+
+        education: [
+            {
+                degree: 'Bachelor of Computer Science',
+                school: 'Wojskowa Akademia Techniczna',
+                period: '2022 - ... (2026)',
+                description: 'Data Analyst'
+            }
+        ],
+
+        projects: [
+            {
+                name: 'E-commerce Platform',
+                tech: 'Vue.js, Node.js, MongoDB',
+                description: 'Kompleksowa platforma e-commerce z systemem płatności i zarządzaniem zamówieniami.'
+            }
+            // ,
+            // {
+            //     name: 'Task Manager App',
+            //     tech: 'React, Express.js, PostgreSQL',
+            //     description: 'Aplikacja do zarządzania zadaniami zespołowymi z funkcją czatu w czasie rzeczywistym.'
+            // },
+            // {
+            //     name: 'Weather Dashboard',
+            //     tech: 'Vue.js, Chart.js, API',
+            //     description: 'Dashboard pogodowy z wizualizacją danych i prognozami długoterminowymi.'
+            // }
+        ]
+    };
+
+    // Konfiguracja dostępnych komend
+    const commands = {
+        help: {
+            description: 'Displays a list of available commands',
+            usage: 'help'
+        },
+        about: {
+            description: 'Information about me',
+            usage: 'about'
+        },
+        kontakt: {
+            description: 'Contact details',
+            usage: 'kontakt'
+        },
+        umiejetnosci: {
+            description: 'List of technical skills',
+            usage: 'umiejetnosci'
+        },
+        doswiadczenie: {
+            description: 'Employment history',
+            usage: 'doswiadczenie'
+        },
+        wyksztalcenie: {
+            description: 'Education information',
+            usage: 'wyksztalcenie'
+        },
+        projekty: {
+            description: 'List of projects',
+            usage: 'projekty'
+        },
+        clear: {
+            description: 'Clears the terminal',
+            usage: 'clear'
+        },
+        cv: {
+            description: 'Download CV in PDF format',
+            usage: 'cv'
+        }
+    };
+
+    // Główny komponent terminala
+    const { createApp } = Vue;
+
+    const TerminalCV = {
+        name: 'TerminalCV',
+        template: `
+                <div class="terminal-container">
+                    <!-- Nagłówek terminala -->
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <div class="terminal-button close"></div>
+                            <div class="terminal-button minimize"></div>
+                            <div class="terminal-button maximize"></div>
+                        </div>
+                        <div class="terminal-title">{{ personalData.name }} - Terminal CV</div>
+                    </div>
+
+                    <!-- Okno terminala -->
+                    <div class="terminal-window" ref="terminalWindow">
+                        <!-- Historia komend -->
+                        <div v-for="(line, index) in history" :key="index" class="terminal-line">
+                            <span class="terminal-prompt" v-if="line.type === 'command'">{{ prompt }}</span>
+                            <div class="terminal-content" :class="line.class" v-html="line.content"></div>
+                        </div>
+
+                        <!-- Aktualna linia input -->
+                        <div class="terminal-input-line">
+                            <span class="terminal-prompt">{{ prompt }}</span>
+                            <input
+                                ref="terminalInput"
+                                v-model="currentCommand"
+                                @keydown.enter="executeCommand"
+                                @keydown.up="navigateHistory(-1)"
+                                @keydown.down="navigateHistory(1)"
+                                @keydown.tab.prevent="autoComplete"
+                                class="terminal-input"
+                                :placeholder="inputPlaceholder"
+                                autofocus
+                            />
+                            <span class="cursor"></span>
+                        </div>
+                    </div>
+                </div>
+            `,
+        data() {
+            return {
+                // Dane osobowe
+                personalData: personalData,
+
+                // Stan terminala
+                currentCommand: '',
+                history: [],
+                commandHistory: [],
+                historyIndex: -1,
+                prompt: 'visitor@jankowalski.dev:~$',
+                inputPlaceholder: 'Wpisz "help" aby zobaczyć dostępne komendy...',
+
+                // Dostępne komendy
+                availableCommands: commands
+            };
+        },
+        mounted() {
+            // Wyświetl wiadomość powitalną
+            this.showWelcomeMessage();
+
+            // Ustaw focus na input
+            this.focusInput();
+        },
+        methods: {
+            // Wyświetla wiadomość powitalną
+            showWelcomeMessage() {
+                const welcomeLines = [
+                    { type: 'output', content: `<span class="text-success">Witaj w terminalu CV!</span>`, class: '' },
+                    { type: 'output', content: `<span class="text-info">Jestem ${this.personalData.name} - ${this.personalData.title}</span>`, class: '' },
+                    { type: 'output', content: `<span class="text-muted">Wpisz "help" aby zobaczyć dostępne komendy</span>`, class: '' },
+                    { type: 'output', content: '', class: '' }
+                ];
+
+                welcomeLines.forEach(line => {
+                    this.history.push(line);
+                });
+            },
+
+            // Wykonuje wprowadzoną komendę
+            executeCommand() {
+                const command = this.currentCommand.trim().toLowerCase();
+
+                // Dodaj komendę do historii
+                this.history.push({
+                    type: 'command',
+                    content: this.currentCommand,
+                    class: 'text-success'
+                });
+
+                // Dodaj do historii komend
+                if (command && this.commandHistory[this.commandHistory.length - 1] !== command) {
+                    this.commandHistory.push(command);
+                }
+                this.historyIndex = -1;
+
+                // Wykonaj komendę
+                this.processCommand(command);
+
+                // Wyczyść input
+                this.currentCommand = '';
+
+                // Przewiń do dołu
+                this.$nextTick(() => {
+                    this.scrollToBottom();
+                });
+            },
+
+            // Przetwarza komendę
+            processCommand(command) {
+                if (!command) {
+                    this.addOutput('');
+                    return;
+                }
+
+                switch (command) {
+                    case 'help':
+                        this.showHelp();
+                        break;
+                    case 'about':
+                        this.showAbout();
+                        break;
+                    case 'kontakt':
+                        this.showContact();
+                        break;
+                    case 'umiejetnosci':
+                        this.showSkills();
+                        break;
+                    case 'doswiadczenie':
+                        this.showExperience();
+                        break;
+                    case 'wyksztalcenie':
+                        this.showEducation();
+                        break;
+                    case 'projekty':
+                        this.showProjects();
+                        break;
+                    case 'clear':
+                        this.clearTerminal();
+                        break;
+                    case 'cv':
+                        this.downloadCV();
+                        break;
+                    default:
+                        this.addOutput(`<span class="text-error">Nieznana komenda: ${command}</span>`);
+                        this.addOutput(`<span class="text-muted">Wpisz "help" aby zobaczyć dostępne komendy</span>`);
+                }
+            },
+
+            // Wyświetla pomoc
+            showHelp() {
+                this.addOutput('<span class="text-info">Dostępne komendy:</span>');
+                this.addOutput('');
+
+                Object.entries(this.availableCommands).forEach(([cmd, info]) => {
+                    this.addOutput(`<span class="text-success">${cmd}</span> - ${info.description}`);
+                });
+
+                this.addOutput('');
+                this.addOutput('<span class="text-muted">Możesz użyć strzałek ↑/↓ do nawigacji w historii komend</span>');
+                this.addOutput('<span class="text-muted">Użyj Tab do autouzupełniania komend</span>');
+            },
+
+            // Wyświetla informacje o mnie
+            showAbout() {
+                this.addOutput('<span class="text-info">O mnie:</span>');
+                this.addOutput('');
+                this.addOutput(this.personalData.about);
+            },
+
+            // Wyświetla dane kontaktowe
+            showContact() {
+                this.addOutput('<span class="text-info">Dane kontaktowe:</span>');
+                this.addOutput('');
+                this.addOutput(`<span class="text-success">Email:</span> ${this.personalData.email}`);
+                this.addOutput(`<span class="text-success">Telefon:</span> ${this.personalData.phone}`);
+                this.addOutput(`<span class="text-success">Lokalizacja:</span> ${this.personalData.location}`);
+                this.addOutput(`<span class="text-success">Strona:</span> ${this.personalData.website}`);
+                this.addOutput(`<span class="text-success">GitHub:</span> ${this.personalData.github}`);
+                this.addOutput(`<span class="text-success">LinkedIn:</span> ${this.personalData.linkedin}`);
+            },
+
+            // Wyświetla umiejętności
+            showSkills() {
+                this.addOutput('<span class="text-info">Umiejętności techniczne:</span>');
+                this.addOutput('');
+
+                Object.entries(this.personalData.skills).forEach(([category, skills]) => {
+                    this.addOutput(`<span class="text-success">${category}:</span>`);
+                    this.addOutput(`  ${skills.join(', ')}`);
+                    this.addOutput('');
+                });
+            },
+
+            // Wyświetla doświadczenie
+            showExperience() {
+                this.addOutput('<span class="text-info">Doświadczenie zawodowe:</span>');
+                this.addOutput('');
+
+                this.personalData.experience.forEach((job, index) => {
+                    this.addOutput(`<span class="text-success">${job.title}</span>`);
+                    this.addOutput(`<span class="text-warning">${job.company}</span> | ${job.period}`);
+                    this.addOutput(job.description);
+
+                    if (index < this.personalData.experience.length - 1) {
+                        this.addOutput('');
+                    }
+                });
+            },
+
+            // Wyświetla wykształcenie
+            showEducation() {
+                this.addOutput('<span class="text-info">Wykształcenie:</span>');
+                this.addOutput('');
+
+                this.personalData.education.forEach((edu, index) => {
+                    this.addOutput(`<span class="text-success">${edu.degree}</span>`);
+                    this.addOutput(`<span class="text-warning">${edu.school}</span> | ${edu.period}`);
+                    this.addOutput(edu.description);
+
+                    if (index < this.personalData.education.length - 1) {
+                        this.addOutput('');
+                    }
+                });
+            },
+
+            // Wyświetla projekty
+            showProjects() {
+                this.addOutput('<span class="text-info">Wybrane projekty:</span>');
+                this.addOutput('');
+
+                this.personalData.projects.forEach((project, index) => {
+                    this.addOutput(`<span class="text-success">${project.name}</span>`);
+                    this.addOutput(`<span class="text-warning">Technologie:</span> ${project.tech}`);
+                    this.addOutput(project.description);
+
+                    if (index < this.personalData.projects.length - 1) {
+                        this.addOutput('');
+                    }
+                });
+            },
+
+            // Czyści terminal
+            clearTerminal() {
+                this.history = [];
+                this.showWelcomeMessage();
+            },
+
+            // Symuluje pobieranie CV
+            downloadCV() {
+                this.addOutput('<span class="text-info">Pobieranie CV...</span>');
+                this.addOutput('<span class="text-success">CV zostało pobrane!</span>');
+                this.addOutput('<span class="text-muted">(W rzeczywistej aplikacji tutaj byłoby pobieranie pliku PDF)</span>');
+            },
+
+            // Dodaje linię do outputu
+            addOutput(content, cssClass = '') {
+                this.history.push({
+                    type: 'output',
+                    content: content,
+                    class: cssClass
+                });
+            },
+
+            // Nawigacja w historii komend
+            navigateHistory(direction) {
+                if (this.commandHistory.length === 0) return;
+
+                if (direction === -1) { // Strzałka w górę
+                    if (this.historyIndex < this.commandHistory.length - 1) {
+                        this.historyIndex++;
+                        this.currentCommand = this.commandHistory[this.commandHistory.length - 1 - this.historyIndex];
+                    }
+                } else { // Strzałka w dół
+                    if (this.historyIndex > 0) {
+                        this.historyIndex--;
+                        this.currentCommand = this.commandHistory[this.commandHistory.length - 1 - this.historyIndex];
+                    } else if (this.historyIndex === 0) {
+                        this.historyIndex = -1;
+                        this.currentCommand = '';
+                    }
+                }
+            },
+
+            // Autouzupełnianie komend
+            autoComplete() {
+                const input = this.currentCommand.toLowerCase();
+                if (!input) return;
+
+                const matches = Object.keys(this.availableCommands).filter(cmd =>
+                    cmd.startsWith(input)
+                );
+
+                if (matches.length === 1) {
+                    this.currentCommand = matches[0];
+                } else if (matches.length > 1) {
+                    this.addOutput(`<span class="text-warning">Możliwe komendy:</span> ${matches.join(', ')}`);
+                }
+            },
+
+            // Przewija do dołu
+            scrollToBottom() {
+                const terminal = this.$refs.terminalWindow;
+                if (terminal) {
+                    terminal.scrollTop = terminal.scrollHeight;
+                }
+            },
+
+            // Ustawia focus na input
+            focusInput() {
+                this.$nextTick(() => {
+                    if (this.$refs.terminalInput) {
+                        this.$refs.terminalInput.focus();
+                    }
+                });
+            }
+        },
+
+        // Utrzymuj focus na input
+        updated() {
+            this.focusInput();
+        }
+    };
+
+    // Tworzenie aplikacji Vue
+    const app = createApp({
+        components: {
+            'terminal-cv': TerminalCV
+        }
+    });
+
+    // Montowanie aplikacji
+    app.mount('#app');
+</script>
+</body>
+</html>
