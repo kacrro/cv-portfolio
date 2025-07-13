@@ -235,27 +235,27 @@
             description: 'Information about me',
             usage: 'about'
         },
-        kontakt: {
+        contact: {
             description: 'Contact details',
-            usage: 'kontakt'
+            usage: 'contact'
         },
-        umiejetnosci: {
+        skill: {
             description: 'List of technical skills',
             usage: 'skill'
         },
-        doswiadczenie: {
+        exp: {
             description: 'Employment history',
             usage: 'exp'
         },
-        wyksztalcenie: {
+        edu: {
             description: 'Education information',
             usage: 'edu'
         },
-        projekty: {
+        proj: {
             description: 'List of projects',
             usage: 'proj'
         },
-        clear: {
+        cls: {
             description: 'Clears the terminal',
             usage: 'cls'
         },
@@ -319,8 +319,8 @@
                 history: [],
                 commandHistory: [],
                 historyIndex: -1,
-                prompt: 'visitor@jankowalski.dev:~$',
-                inputPlaceholder: 'Wpisz "help" aby zobaczyć dostępne komendy...',
+                prompt: 'user:~$',
+                inputPlaceholder: 'Type "help" to find out more...',
 
                 // Dostępne komendy
                 availableCommands: commands
@@ -391,22 +391,22 @@
                     case 'about':
                         this.showAbout();
                         break;
-                    case 'kontakt':
+                    case 'contact':
                         this.showContact();
                         break;
-                    case 'umiejetnosci':
+                    case 'skill':
                         this.showSkills();
                         break;
-                    case 'doswiadczenie':
+                    case 'exp':
                         this.showExperience();
                         break;
-                    case 'wyksztalcenie':
+                    case 'edu':
                         this.showEducation();
                         break;
-                    case 'projekty':
+                    case 'proj':
                         this.showProjects();
                         break;
-                    case 'clear':
+                    case 'cls':
                         this.clearTerminal();
                         break;
                     case 'cv':
