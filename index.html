@@ -178,13 +178,12 @@
         github: 'https://github.com/kacrro',
         linkedin: 'https://linkedin.com',
 
-        about: `Jestem poczatkujacym programista frontend z doświadczeniem w tworzeniu aplikacji webowych z zajec na studiach.`,
-
+        about: `I am a beginner frontend developer with experience in creating web applications from university classes.`,
         skills: {
             'Frontend': ['Vue.js', 'React', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Sass'],
             'Backend': ['Node.js', 'Express.js', 'Python', 'Django', 'PHP', 'Laravel'],
-            'Bazy danych': ['SQL', 'cassandra', 'MongoDB', 'Redis'],
-            'Narzędzia': ['Git', 'Docker', 'Linux', 'jira']
+            'Data bases': ['SQL', 'cassandra', 'MongoDB', 'Redis'],
+            'Tools': ['Git', 'Docker', 'Linux', 'jira']
         },
 
         experience: [
@@ -209,7 +208,7 @@
             {
                 name: 'E-commerce Platform',
                 tech: 'Vue.js, Node.js, MongoDB',
-                description: 'Kompleksowa platforma e-commerce z systemem płatności i zarządzaniem zamówieniami.'
+                description: 'test test test test.'
             }
             // ,
             // {
@@ -301,10 +300,9 @@
                                 @keydown.down="navigateHistory(1)"
                                 @keydown.tab.prevent="autoComplete"
                                 class="terminal-input"
-                                :placeholder="inputPlaceholder"
+
                                 autofocus
                             />
-                            <span class="cursor"></span>
                         </div>
                     </div>
                 </div>
@@ -320,7 +318,6 @@
                 commandHistory: [],
                 historyIndex: -1,
                 prompt: 'user:~$',
-                inputPlaceholder: 'Type "help" to find out more...',
 
                 // Dostępne komendy
                 availableCommands: commands
@@ -337,9 +334,9 @@
             // Wyświetla wiadomość powitalną
             showWelcomeMessage() {
                 const welcomeLines = [
-                    { type: 'output', content: `<span class="text-success">Witaj w terminalu CV!</span>`, class: '' },
-                    { type: 'output', content: `<span class="text-info">Jestem ${this.personalData.name} - ${this.personalData.title}</span>`, class: '' },
-                    { type: 'output', content: `<span class="text-muted">Wpisz "help" aby zobaczyć dostępne komendy</span>`, class: '' },
+                    { type: 'output', content: `<span class="text-success">Welcome in terminal CV!</span>`, class: '' },
+                    { type: 'output', content: `<span class="text-info">I'm  ${this.personalData.name} - ${this.personalData.title}</span>`, class: '' },
+                    { type: 'output', content: `<span class="text-muted">Write "help" to see more commends</span>`, class: '' },
                     { type: 'output', content: '', class: '' }
                 ];
 
@@ -413,14 +410,14 @@
                         this.downloadCV();
                         break;
                     default:
-                        this.addOutput(`<span class="text-error">Nieznana komenda: ${command}</span>`);
-                        this.addOutput(`<span class="text-muted">Wpisz "help" aby zobaczyć dostępne komendy</span>`);
+                        this.addOutput(`<span class="text-error">Unknown command: ${command}</span>`);
+                        this.addOutput(`<span class="text-muted">Type "help" to see available commands</span>`);
                 }
             },
 
             // Wyświetla pomoc
             showHelp() {
-                this.addOutput('<span class="text-info">Dostępne komendy:</span>');
+                this.addOutput('<span class="text-info">Available commands:</span>');
                 this.addOutput('');
 
                 Object.entries(this.availableCommands).forEach(([cmd, info]) => {
@@ -428,32 +425,32 @@
                 });
 
                 this.addOutput('');
-                this.addOutput('<span class="text-muted">Możesz użyć strzałek ↑/↓ do nawigacji w historii komend</span>');
-                this.addOutput('<span class="text-muted">Użyj Tab do autouzupełniania komend</span>');
+                this.addOutput('<span class="text-muted">You can use the ↑/↓ arrows to navigate command history</span>');
+                this.addOutput('<span class="text-muted">Use Tab to autocomplete commands</span>');
             },
 
             // Wyświetla informacje o mnie
             showAbout() {
-                this.addOutput('<span class="text-info">O mnie:</span>');
+                this.addOutput('<span class="text-info">About me:</span>');
                 this.addOutput('');
                 this.addOutput(this.personalData.about);
             },
 
             // Wyświetla dane kontaktowe
             showContact() {
-                this.addOutput('<span class="text-info">Dane kontaktowe:</span>');
+                this.addOutput('<span class="text-info">Contact info:</span>');
                 this.addOutput('');
                 this.addOutput(`<span class="text-success">Email:</span> ${this.personalData.email}`);
-                this.addOutput(`<span class="text-success">Telefon:</span> ${this.personalData.phone}`);
-                this.addOutput(`<span class="text-success">Lokalizacja:</span> ${this.personalData.location}`);
-                this.addOutput(`<span class="text-success">Strona:</span> ${this.personalData.website}`);
+                this.addOutput(`<span class="text-success">Phone number:</span> ${this.personalData.phone}`);
+                this.addOutput(`<span class="text-success">Localization:</span> ${this.personalData.location}`);
+                this.addOutput(`<span class="text-success">WebPage:</span> ${this.personalData.website}`);
                 this.addOutput(`<span class="text-success">GitHub:</span> ${this.personalData.github}`);
                 this.addOutput(`<span class="text-success">LinkedIn:</span> ${this.personalData.linkedin}`);
             },
 
             // Wyświetla umiejętności
             showSkills() {
-                this.addOutput('<span class="text-info">Umiejętności techniczne:</span>');
+                this.addOutput('<span class="text-info">Tech skills:</span>');
                 this.addOutput('');
 
                 Object.entries(this.personalData.skills).forEach(([category, skills]) => {
@@ -465,7 +462,7 @@
 
             // Wyświetla doświadczenie
             showExperience() {
-                this.addOutput('<span class="text-info">Doświadczenie zawodowe:</span>');
+                this.addOutput('<span class="text-info">Work expirience:</span>');
                 this.addOutput('');
 
                 this.personalData.experience.forEach((job, index) => {
@@ -481,7 +478,7 @@
 
             // Wyświetla wykształcenie
             showEducation() {
-                this.addOutput('<span class="text-info">Wykształcenie:</span>');
+                this.addOutput('<span class="text-info">Education:</span>');
                 this.addOutput('');
 
                 this.personalData.education.forEach((edu, index) => {
@@ -497,12 +494,12 @@
 
             // Wyświetla projekty
             showProjects() {
-                this.addOutput('<span class="text-info">Wybrane projekty:</span>');
+                this.addOutput('<span class="text-info">Few projects:</span>');
                 this.addOutput('');
 
                 this.personalData.projects.forEach((project, index) => {
                     this.addOutput(`<span class="text-success">${project.name}</span>`);
-                    this.addOutput(`<span class="text-warning">Technologie:</span> ${project.tech}`);
+                    this.addOutput(`<span class="text-warning">Tech stacks:</span> ${project.tech}`);
                     this.addOutput(project.description);
 
                     if (index < this.personalData.projects.length - 1) {
@@ -519,9 +516,9 @@
 
             // Symuluje pobieranie CV
             downloadCV() {
-                this.addOutput('<span class="text-info">Pobieranie CV...</span>');
-                this.addOutput('<span class="text-success">CV zostało pobrane!</span>');
-                this.addOutput('<span class="text-muted">(W rzeczywistej aplikacji tutaj byłoby pobieranie pliku PDF)</span>');
+                this.addOutput('<span class="text-info">Downloading CV...</span>');
+                this.addOutput('<span class="text-success">CV has been downloaded!</span>');
+                this.addOutput('<span class="text-muted">(in future file will be donloaded into pdf format)</span>');
             },
 
             // Dodaje linię do outputu
@@ -565,7 +562,7 @@
                 if (matches.length === 1) {
                     this.currentCommand = matches[0];
                 } else if (matches.length > 1) {
-                    this.addOutput(`<span class="text-warning">Możliwe komendy:</span> ${matches.join(', ')}`);
+                    this.addOutput(`<span class="text-warning">Available commands:</span> ${matches.join(', ')}`);
                 }
             },
 
