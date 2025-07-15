@@ -1,0 +1,45 @@
+/* Reset i podstawowe style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #0a0a0a;
+    color: #00ff00;
+    overflow: hidden;
+}
+
+/* Scrollbar dla terminala */
+.terminal-window::-webkit-scrollbar {
+    width: 8px;
+}
+.terminal-window::-webkit-scrollbar-track {
+    background: #2a2a2a;
+}
+.terminal-window::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border-radius: 4px;
+}
+.terminal-window::-webkit-scrollbar-thumb:hover {
+    background: #00cc00;
+}
+
+/* Utility-klasy kolorów (globalnie) */
+.text-success {
+    color: #00ff00;
+}
+.text-error {
+    color: #ff0000;
+}
+.text-warning {
+    color: #ffff00;
+}
+.text-info {
+    color: #00ffff;
+}
+.text-muted {
+    color: #888888;
+}
