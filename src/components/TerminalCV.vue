@@ -10,7 +10,6 @@
         {{ personalData.name }} – Terminal CV
       </div>
     </div>
-
     <div class="terminal-window" ref="terminalWindow">
       <div
           v-for="(line, idx) in history"
