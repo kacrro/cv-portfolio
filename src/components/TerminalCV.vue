@@ -7,7 +7,7 @@
         <div class="terminal-button maximize"></div>
       </div>
       <div class="terminal-title">
-        {{ personalData.name }} – Terminal CV
+        {{ personalData.name }} – Terminal CV!!!
       </div>
     </div>
     <div class="terminal-window" ref="terminalWindow">
